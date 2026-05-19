@@ -1,4 +1,4 @@
-# Assignment 2 — Part 2: Structured Output Agent
+# Assignment 2 — Part 2 Structured Output Agent
 
 An upgraded Python-based AI agent built on top of Part 1, featuring structured tool calling, file editing, persistent session history, output size limits, and Docker-based sandboxed execution. The agent is designed to work safely and reliably as part of a larger multi-agent software development organization.
 
