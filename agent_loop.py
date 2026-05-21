@@ -1,6 +1,7 @@
+import json
 from llm_client import client, model
 from session import Session
-from tool_registry import get_tool, get_tool_names
+from tool_registry import get_tool
 
 def run_agent(user_input, system_prompt):
     session = Session(system_prompt)
@@ -36,15 +37,9 @@ def run_agent(user_input, system_prompt):
                         "parameters": {
                             "type": "object",
                             "properties": {
-                                "filepath": {
-                                    "type": "string"
-                                },
-                                "old_content": {
-                                    "type": "string"
-                                },
-                                "new_content": {
-                                    "type": "string"
-                                }
+                                "filepath": {"type": "string"},
+                                "old_content": {"type": "string"},
+                                "new_content": {"type": "string"}
                             },
                             "required": ["filepath", "old_content", "new_content"]
                         }
@@ -57,11 +52,14 @@ def run_agent(user_input, system_prompt):
         message = response.choices[0].message
         
         if message.tool_calls:
-            session.add_assistant_message(message.content or "")
+            session.messages.append({
+                "role": "assistant",
+                "content": message.content or "",
+                "tool_calls": message.tool_calls
+            })
             
             for tool_call in message.tool_calls:
                 tool_name = tool_call.function.name
-                import json
                 args = json.loads(tool_call.function.arguments)
                 
                 tool = get_tool(tool_name)
