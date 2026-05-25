@@ -1,11 +1,13 @@
 import json
 from llm_client import client, model
+from logs.logger import log
 from session import Session
 from tool_registry import get_tool
 
 def run_agent(user_input, system_prompt):
     session = Session(system_prompt)
     session.add_user_message(user_input)
+    log(f"User input: {user_input}")
     
     for _ in range(10):
         response = client.chat.completions.create(
@@ -70,6 +72,7 @@ def run_agent(user_input, system_prompt):
                 
                 print(f"\nTool: {tool_name}")
                 print(f"Result: {result}")
+                log(f"Tool: {tool_name}, Result: {result}")
                 
                 session.messages.append({
                     "role": "tool",
@@ -79,4 +82,5 @@ def run_agent(user_input, system_prompt):
         
         else:
             print(f"\nAgent: {message.content}")
+            log(f"Agent response: {message.content}")
             break
