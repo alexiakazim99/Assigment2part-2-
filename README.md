@@ -12,7 +12,9 @@ An upgraded Python-based AI agent built on top of Part 1, featuring structured t
 - [Configuration](#configuration)
 - [Running with Docker](#running-with-docker)
 - [Security](#security)
+- [Logging](#logging)
 - [Constraints](#constraints)
+
 
 ## Overview
 
@@ -121,6 +123,10 @@ docker compose down
 - **Session token budget** — a maximum token limit per session prevents runaway API usage
 - **Config-based system prompt** — the agent is scoped to software engineering only and will decline other topics
 - **No secrets in version control** — the `.env` file is excluded via `.gitignore` and never pushed to GitHub
+
+## Logging
+
+The agent automatically logs all interactions to `logs/agent.log`. Every message — from the user, tool results, and agent responses — is recorded with a timestamp. This makes it easy to review what the agent did during a session and debug any unexpected behavior.
 
 ## Constraints
 
