@@ -4,8 +4,9 @@ from logs.logger import log
 from session import Session
 from tool_registry import get_tool
 
-def run_agent(user_input, system_prompt):
-    session = Session(system_prompt)
+def run_agent(user_input, system_prompt, session=None):
+    if session is None:
+        session = Session(system_prompt)
     session.add_user_message(user_input)
     log(f"User input: {user_input}")
     
